@@ -49,22 +49,22 @@ func TestGetFeatures(t *testing.T) {
 
 	for _, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
-			var routeGuide RouteGuide
+			var routeGuide = RouteGuide{ client: fakeRouteGuideClient{ features: test.wantFeatures }}
 			ctx := context.Background()
-			routeGuide.client = fakeRouteGuideClient{ features: test.wantFeatures }
 
 			gotFeatures, err := routeGuide.GetFeatures(ctx, test.inputPoints)
-			if err == nil {
-				if !reflect.DeepEqual(gotFeatures, test.wantFeatures) {
-					t.Fatalf("Got: %#v\nWant: %#v", gotFeatures, test.wantFeatures)
-				}
-			} else {
-				if !strings.Contains(err.Error(), "No feature associated with this point") {
+			if err != nil {
+				if strings.Contains(err.Error(), "No feature associated with this point") {
+					return
+				} else {
 					t.Fatalf("GetFeatures failed miserably: %v", err)
-				}}
+				}
+			}
+			if !reflect.DeepEqual(gotFeatures, test.wantFeatures) {
+				t.Fatalf("Got: %#v\nWant: %#v", gotFeatures, test.wantFeatures)
+				}
 		})
 	}
-
 }
 
 type fakeRouteGuideClient struct {
