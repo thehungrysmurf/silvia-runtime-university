@@ -10,7 +10,7 @@ type RouteGuide struct {
 }
 
 func (rg *RouteGuide) GetFeatures(ctx context.Context, points []spec.Point) ([]spec.Feature, error) {
-	var features []spec.Feature
+	var features = []spec.Feature{}
 	for _, point := range points {
 		feature, err := rg.client.GetFeature(ctx, &point)
 		if err != nil {
