@@ -14,11 +14,13 @@ var testCases = []struct{
 	name string
 	inputPoints []spec.Point
 	wantFeatures []spec.Feature
+	wantErr	bool
 }{
 	{
 		name:         "With zero points",
 		inputPoints:  []spec.Point{},
 		wantFeatures: []spec.Feature{},
+		wantErr: false,
 	},
 	{
 		name:        "With one point",
@@ -27,6 +29,7 @@ var testCases = []struct{
 		wantFeatures: []spec.Feature{
 			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
 		},
+		wantErr: false,
 	},
 	{
 		name:        "With two points",
@@ -35,6 +38,7 @@ var testCases = []struct{
 			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
 			{ Name: "anotherfeature", Location: &spec.Point{Latitude: 100003, Longitude: 100004} },
 		},
+		wantErr: false,
 	},
 	{
 		name:        "With point unassociated to feature",
@@ -42,6 +46,7 @@ var testCases = []struct{
 		wantFeatures: []spec.Feature{
 			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
 		},
+		wantErr: true,
 	},
 }
 
@@ -54,7 +59,7 @@ func TestGetFeatures(t *testing.T) {
 
 			gotFeatures, err := routeGuide.GetFeatures(ctx, test.inputPoints)
 			if err != nil {
-				if strings.Contains(err.Error(), "No feature associated with this point") {
+				if test.wantErr && strings.Contains(err.Error(), "No feature associated with this point") {
 					return
 				} else {
 					t.Fatalf("GetFeatures failed miserably: %v", err)
