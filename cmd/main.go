@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	flag.String("help", "", "Display usage")
+	var serverUrlFlag = flag.String("server-url", "", "Url of server to connect to")
 	flag.Parse()
 
 	type Config struct {
@@ -20,8 +20,12 @@ func main() {
 
 	var cfg Config
 	err := envdecode.Decode(&cfg)
+	serverAddress := cfg.ServerUrl
+	if *serverUrlFlag != "" {
+		serverAddress = *serverUrlFlag
+	}
 
-	conn, err := grpc.Dial(cfg.ServerUrl, grpc.WithInsecure())
+	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Error connecting: %v", err)
 	}
@@ -30,9 +34,9 @@ func main() {
 	c := client.RouteGuide{ Client: spec.NewRouteGuideClient(conn)}
 
 	var inputPoints = []spec.Point{
-		{ Latitude: 98349834, Longitude: 384738473 },
-		{ Latitude: 98349835, Longitude: 384738474 },
-		{ Latitude: 98349836, Longitude: 384738475 },
+		{ Latitude: 407838351, Longitude: -746143763 },
+		{ Latitude: 408122808, Longitude: -743999179 },
+		{ Latitude: 413628156, Longitude: -749015468 },
 	}
 
 	features, err := c.GetFeatures(context.Background(), inputPoints)
