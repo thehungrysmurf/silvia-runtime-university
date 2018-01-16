@@ -1,5 +1,11 @@
 {
 	"comment": "",
+	"heroku": {
+		"goVersion": "go1.9",
+		"install": [
+			"./..."
+		]
+	},
 	"ignore": "test",
 	"package": [
 		{
@@ -33,10 +39,28 @@
 			"revisionTime": "2017-11-13T18:07:20Z"
 		},
 		{
+			"path": "github.com/heroku/silvia-runtime-university",
+			"revision": ""
+		},
+		{
+			"path": "github.com/heroku/silvia-runtime-university/client",
+			"revision": ""
+		},
+		{
+			"path": "github.com/heroku/silvia-runtime-university/spec",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "+ao5OeNsFj1ZJqsaS55I3oAMrcY=",
+			"path": "github.com/joeshaw/envdecode",
+			"revision": "6326cbed175e32cd5183be1cc1027e0823c91edb",
+			"revisionTime": "2016-06-25T03:51:10Z"
+		},
+		{
 			"checksumSHA1": "GtamqiJoL7PGHsN454AoffBFMa8=",
 			"path": "golang.org/x/net/context",
-			"revision": "434ec0c7fe3742c984919a691b2018a6e9694425",
-			"revisionTime": "2017-09-25T09:26:47Z"
+			"revision": "5ccada7d0a7ba9aeb5d3aca8d3501b4c2a509fec",
+			"revisionTime": "2018-01-12T01:53:59Z"
 		},
 		{
 			"checksumSHA1": "VLRrE1AnzGMZf5Eud41ysvU3HOA=",
@@ -237,9 +261,5 @@
 			"revisionTime": "2018-01-05T23:37:05Z"
 		}
 	],
-	"rootPath": "github.com/heroku/silvia-runtime-university",
-	"heroku": {
-        "install" : [ "./..." ],
-        "goVersion": "go1.9"
-         }
+	"rootPath": "github.com/heroku/silvia-runtime-university"
 }

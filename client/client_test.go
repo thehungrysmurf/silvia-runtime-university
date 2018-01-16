@@ -54,7 +54,7 @@ func TestGetFeatures(t *testing.T) {
 
 	for _, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
-			var routeGuide = RouteGuide{ client: fakeRouteGuideClient{ features: test.wantFeatures }}
+			var routeGuide = RouteGuide{ Client: fakeRouteGuideClient{ features: test.wantFeatures }}
 			ctx := context.Background()
 
 			gotFeatures, err := routeGuide.GetFeatures(ctx, test.inputPoints)
