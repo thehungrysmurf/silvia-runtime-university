@@ -1,0 +1,5 @@
+FROM readysetgo:latest
+
+ENV GOPATH /go
+
+ADD . $GOPATH/src/github.com/heroku/silvia-runtime-university
