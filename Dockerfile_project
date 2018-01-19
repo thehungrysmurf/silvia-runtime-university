@@ -1,0 +1,9 @@
+FROM readysetgo:latest
+
+ENV GOPATH /go
+
+ADD . $GOPATH/src/github.com/heroku/silvia-runtime-university
+
+WORKDIR $GOPATH/src/github.com/heroku/silvia-runtime-university
+
+CMD [ "go", "test", "-v", "./client/..." ]
