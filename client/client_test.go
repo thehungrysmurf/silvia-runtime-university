@@ -1,50 +1,51 @@
 package client
 
 import (
+	"fmt"
+	"reflect"
+	"strings"
 	"testing"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+
 	"github.com/heroku/silvia-runtime-university/spec"
-	"reflect"
-	"fmt"
-	"strings"
 )
 
-var testCases = []struct{
-	name string
-	inputPoints []spec.Point
+var testCases = []struct {
+	name         string
+	inputPoints  []spec.Point
 	wantFeatures []spec.Feature
-	wantErr	bool
+	wantErr      bool
 }{
 	{
 		name:         "With zero points",
 		inputPoints:  []spec.Point{},
 		wantFeatures: []spec.Feature{},
-		wantErr: false,
+		wantErr:      false,
 	},
 	{
 		name:        "With one point",
-		inputPoints: []spec.Point{{ Latitude: 100001, Longitude: 100002},
-		},
+		inputPoints: []spec.Point{{Latitude: 100001, Longitude: 100002}},
 		wantFeatures: []spec.Feature{
-			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
+			{Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002}},
 		},
 		wantErr: false,
 	},
 	{
 		name:        "With two points",
-		inputPoints: []spec.Point{{ Latitude: 100001, Longitude: 100002}, {Latitude: 100003, Longitude: 100004 }},
+		inputPoints: []spec.Point{{Latitude: 100001, Longitude: 100002}, {Latitude: 100003, Longitude: 100004}},
 		wantFeatures: []spec.Feature{
-			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
-			{ Name: "anotherfeature", Location: &spec.Point{Latitude: 100003, Longitude: 100004} },
+			{Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002}},
+			{Name: "anotherfeature", Location: &spec.Point{Latitude: 100003, Longitude: 100004}},
 		},
 		wantErr: false,
 	},
 	{
 		name:        "With point unassociated to feature",
-		inputPoints: []spec.Point{{ Latitude: 100008, Longitude: 100009}},
+		inputPoints: []spec.Point{{Latitude: 100008, Longitude: 100009}},
 		wantFeatures: []spec.Feature{
-			{ Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002} },
+			{Name: "somefeature", Location: &spec.Point{Latitude: 100001, Longitude: 100002}},
 		},
 		wantErr: true,
 	},
@@ -54,20 +55,19 @@ func TestGetFeatures(t *testing.T) {
 
 	for _, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
-			var routeGuide = RouteGuide{ Client: fakeRouteGuideClient{ features: test.wantFeatures }}
+			var routeGuide = RouteGuide{Client: fakeRouteGuideClient{features: test.wantFeatures}}
 			ctx := context.Background()
 
 			gotFeatures, err := routeGuide.GetFeatures(ctx, test.inputPoints)
 			if err != nil {
 				if test.wantErr && strings.Contains(err.Error(), "No feature associated with this point") {
 					return
-				} else {
-					t.Fatalf("GetFeatures failed miserably: %v", err)
 				}
+				t.Fatalf("GetFeatures failed miserably: %v", err)
 			}
 			if !reflect.DeepEqual(gotFeatures, test.wantFeatures) {
 				t.Fatalf("Got: %#v\nWant: %#v", gotFeatures, test.wantFeatures)
-				}
+			}
 		})
 	}
 }

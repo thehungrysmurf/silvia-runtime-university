@@ -1,8 +1,8 @@
 package client
 
 import (
-	"golang.org/x/net/context"
 	"github.com/heroku/silvia-runtime-university/spec"
+	"golang.org/x/net/context"
 )
 
 type RouteGuide struct {
