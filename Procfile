@@ -1,1 +1,1 @@
-clientworker: go run cmd/main.go
+clientworker: ./bin/cmd
