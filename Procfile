@@ -1,0 +1,1 @@
+clientworker: go run cmd/main.go
