@@ -12,6 +12,7 @@ import (
 	"github.com/heroku/silvia-runtime-university/spec"
 )
 
+// Make a test change to trigger heroku auto deploy
 func main() {
 	var serverURLFlag = flag.String("server-url", "", "Url of server to connect to")
 	flag.Parse()
